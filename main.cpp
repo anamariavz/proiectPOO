@@ -140,6 +140,7 @@ public:
         ost << (Produs&)m;
         ost << "Tip: " << m.tip << endl
             << "Culoare: " << m.culoare << endl;
+        return ost;
     }
 };
 
@@ -151,6 +152,7 @@ public:
     friend ostream& operator<<(ostream& ost, const Crema& c) {
         ost << (Produs&)c;
         ost << "Tipul de piele: " << c.TipPiele << endl;
+        return ost;
     }
 };
 
