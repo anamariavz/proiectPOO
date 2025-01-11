@@ -124,7 +124,7 @@ private:
 public:
     Parfum(string& n, double p, string& b, int g, string& nota) : Produs(n, p, b, g), note(nota) { }
     friend ostream& operator<<(ostream& ost, const Parfum& p) {
-        ost << (Produs&)p;
+        ost << static_cast<const Produs&>(p);
         ost << "Note: " << p.note << endl;
         return ost;
     }
@@ -137,7 +137,7 @@ private:
 public:
     Machiaj(string& n, double p, string b, int g, string& t, string& c) : Produs(n, p, b, g), tip(t), culoare(c) { }
     friend ostream& operator<<(ostream& ost, const Machiaj& m) {
-        ost << (Produs&)m;
+        ost << static_cast<const Produs&>(m);
         ost << "Tip: " << m.tip << endl
             << "Culoare: " << m.culoare << endl;
         return ost;
@@ -150,7 +150,7 @@ private:
 public:
     Crema(string& n, double p, string& b, int g, string& tp) : Produs(n, p, b, g), TipPiele(tp) { }
     friend ostream& operator<<(ostream& ost, const Crema& c) {
-        ost << (Produs&)c;
+        ost << static_cast<const Produs&>(c);
         ost << "Tipul de piele: " << c.TipPiele << endl;
         return ost;
     }
@@ -210,7 +210,7 @@ protected:
 public:
     explicit Utilizator(const string& n) : nume(n) { }
     virtual void descriere() const = 0;
-    string getNume() const { return nume; }
+    const string& getNume() const { return nume; }
     virtual ~Utilizator() {}
 };
 
@@ -280,7 +280,7 @@ public:
              << "Comanda clientului " << client->getNume() << " a fost procesata." << endl
              << "---------------------------------------------------" << endl;
         double total = 0;
-        for (const auto& it : produse) {
+        for (const auto* it : produse) {
             cout << *it << endl;
             total += it->getPret();
         }
