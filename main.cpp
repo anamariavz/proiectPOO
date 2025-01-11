@@ -50,7 +50,7 @@ protected:
     int gramaj;
 
 public:
-    Produs(string n, double p, string b, int g) : nume(n), pret(p), brand(b), gramaj(g){ }
+    Produs(string& n, double p, string& b, int g) : nume(n), pret(p), brand(b), gramaj(g){ }
     Produs() : nume("null"), pret(0), brand("null"), gramaj(0) { }
     Produs(const Produs& ob) : nume(ob.nume), pret(ob.pret), brand(ob.brand), gramaj(ob.gramaj) { }
 
@@ -122,7 +122,7 @@ class Parfum : public Produs {
 private:
     string note;
 public:
-    Parfum(string n, double p, string b, int g, string nota) : Produs(n, p, b, g), note(nota) { }
+    Parfum(string& n, double p, string& b, int g, string& nota) : Produs(n, p, b, g), note(nota) { }
     friend ostream& operator<<(ostream& ost, const Parfum& p) {
         ost << (Produs&)p;
         ost << "Note: " << p.note << endl;
@@ -135,7 +135,7 @@ private:
     string tip;
     string culoare;
 public:
-    Machiaj(string n, double p, string b, int g, string t, string c) : Produs(n, p, b, g), tip(t), culoare(c) { }
+    Machiaj(string& n, double p, string b, int g, string& t, string& c) : Produs(n, p, b, g), tip(t), culoare(c) { }
     friend ostream& operator<<(ostream& ost, const Machiaj& m) {
         ost << (Produs&)m;
         ost << "Tip: " << m.tip << endl
@@ -148,7 +148,7 @@ class Crema : public Produs {
 private:
     string TipPiele;
 public:
-    Crema(string n, double p, string b, int g, string tp) : Produs(n, p, b, g), TipPiele(tp) { }
+    Crema(string& n, double p, string& b, int g, string& tp) : Produs(n, p, b, g), TipPiele(tp) { }
     friend ostream& operator<<(ostream& ost, const Crema& c) {
         ost << (Produs&)c;
         ost << "Tipul de piele: " << c.TipPiele << endl;
@@ -204,11 +204,11 @@ public:
 
 class Utilizator {
 protected:
-    string nume;
+    string& nume;
 public:
-    Utilizator(string n) : nume(n) { }
+    Utilizator(string& n) : nume(n) { }
     virtual void descriere() const = 0;
-    string getNume() const { return nume; }
+    string& getNume() const { return nume; }
     virtual ~Utilizator() {}
 };
 
@@ -231,7 +231,7 @@ public:
         cosCumparaturi.adaugaProdus(produs);
     }
 
-    void descriere() const {
+    void descriere() const override {
         cout << "Clientul: " << nume << endl;
     }
 
