@@ -166,6 +166,8 @@ private:
     string Y; // culoare machiaj sau TipPiele
 
 public:
+    ProdusBuilder()
+            : nume("null"), pret(0.0), brand("null"), gramaj(0), X("null"), Y("null") {}
     ProdusBuilder& setNume (const string& n) {
         nume = n;
         return *this;
@@ -204,11 +206,11 @@ public:
 
 class Utilizator {
 protected:
-    string& nume;
+    string nume;
 public:
-    Utilizator(string& n) : nume(n) { }
+    explicit Utilizator(const string& n) : nume(n) { }
     virtual void descriere() const = 0;
-    string& getNume() const { return nume; }
+    string getNume() const { return nume; }
     virtual ~Utilizator() {}
 };
 
@@ -217,7 +219,7 @@ private:
     CosDeCumparaturi<Produs> cosCumparaturi;
 
 public:
-    Client(string n) : Utilizator(n) { }
+    explicit Client(const string& n) : Utilizator(n) { }
 
     void afisare_cos() const {
         cout << "Cosul utilizatorului " << nume << " contine: " << endl
@@ -242,7 +244,7 @@ public:
 
 class Administrator : public Utilizator {
 public:
-    Administrator(string n) : Utilizator(n) { }
+    explicit Administrator(const string& n) : Utilizator(n) { }
     void descriere() const override {
         cout << "Administratorul: " << nume << endl;
     }
@@ -251,12 +253,12 @@ public:
         cout << nume << " gestioneaza stocul magazinului." << endl;
     }
 };
-class EroareComanda : public std::exception {
-public:
-    const char* what() const noexcept override {
-            return "Produsul nu poate fi adaugat in comanda!";
-    }
-};
+//class EroareComanda : public std::exception {
+//public:
+//    const char* what() const noexcept override {
+//            return "Produsul nu poate fi adaugat in comanda!";
+//    }
+//};
 
 class Comanda {
 private:
@@ -264,12 +266,12 @@ private:
     vector<Produs*> produse;
 
 public:
-    Comanda(Client* c) : client(c) {}
+    explicit Comanda(Client* c) : client(c) {}
 
     void adaugaProdus(Produs* produs) {
-        if (produs == nullptr) {
-            throw EroareComanda();
-        }
+//        if (produs == nullptr) {
+//            throw EroareComanda();
+//        }
         produse.push_back(produs);
     }
 
@@ -278,7 +280,7 @@ public:
              << "Comanda clientului " << client->getNume() << " a fost procesata." << endl
              << "---------------------------------------------------" << endl;
         double total = 0;
-        for (auto& it : produse) {
+        for (const auto& it : produse) {
             cout << *it << endl;
             total += it->getPret();
         }
