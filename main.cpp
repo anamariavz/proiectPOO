@@ -87,7 +87,7 @@ public:
     }
 
     double getPret() const { return pret; }
-    string getNume() const { return nume; }
+    const string& getNume() const { return nume; }
     virtual ~Produs() {}
 };
 
