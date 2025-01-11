@@ -21,7 +21,7 @@ public:
 
     void afiseazaCos() const {
         cout << "Produse din cos:" << endl;
-        for (auto produs : produse) {
+        for (auto const produs : produse) {
             cout << *produs << endl;
         }
     }
@@ -106,7 +106,7 @@ public:
         return instanta;
     }
 
-    void adaugaProdus(shared_ptr<Produs> produs) {
+    void adaugaProdus(shared_ptr<Produs> const &produs) {
         produse.push_back(produs);
     }
 
@@ -243,7 +243,7 @@ public:
 class Administrator : public Utilizator {
 public:
     Administrator(string n) : Utilizator(n) { }
-    void descriere() const {
+    void descriere() const override {
         cout << "Administratorul: " << nume << endl;
     }
 
