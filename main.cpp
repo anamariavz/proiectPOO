@@ -8,34 +8,34 @@ using namespace std;
 template <typename T>
 class CosDeCumparaturi {
 private:
-    vector<T> produse;
+    vector<T*> produse;
     static int nrProd;
 
 public:
     static int aflare_NrProd() { return nrProd; }
 
-    void adaugaProdus(const T& produs) {
+    void adaugaProdus(T* produs) {
         produse.push_back(produs);
         nrProd++;
     }
 
     void afiseazaCos() const {
         cout << "Produse din cos:" << endl;
-        for (const auto& produs : produse) {
+        for (auto const produs : produse) {
             cout << *produs << endl;
         }
     }
 
     void sortare_dupa_pret() {
-        sort(produse.begin(), produse.end(), [](const T& p1, const T& p2) {
+        sort(produse.begin(), produse.end(), [](T* p1, T* p2) {
             return p1->getPret() < p2->getPret();
         });
     }
 
     ~CosDeCumparaturi() {
-//        for (auto produs : produse) {
-//            delete produs;
-//        }
+        for (auto produs : produse) {
+            delete produs;
+        }
     }
 };
 
@@ -216,7 +216,7 @@ public:
 
 class Client : public Utilizator {
 private:
-    CosDeCumparaturi<shared_ptr<Produs>> cosCumparaturi;
+    CosDeCumparaturi<Produs> cosCumparaturi;
 
 public:
     explicit Client(const string& n) : Utilizator(n) { }
@@ -229,7 +229,7 @@ public:
     }
 
 
-    void adaugaInCos(const shared_ptr<Produs>& produs) {
+    void adaugaInCos(Produs* produs) {
         cosCumparaturi.adaugaProdus(produs);
     }
 
@@ -263,12 +263,12 @@ public:
 class Comanda {
 private:
     Client* client;
-    vector<shared_ptr<Produs>> produse;
+    vector<Produs*> produse;
 
 public:
     explicit Comanda(Client* c) : client(c) {}
 
-    void adaugaProdus(shared_ptr<Produs> produs) {
+    void adaugaProdus(Produs* produs) {
 //        if (produs == nullptr) {
 //            throw EroareComanda();
 //        }
@@ -280,7 +280,7 @@ public:
              << "Comanda clientului " << client->getNume() << " a fost procesata." << endl
              << "---------------------------------------------------" << endl;
         double total = 0;
-        for (const auto& it : produse) {
+        for (const auto* it : produse) {
             cout << *it << endl;
             total += it->getPret();
         }
@@ -301,35 +301,35 @@ int main() {
     cout << "Produsul introdus este:" << endl;
     cout << produs1 << endl;
 
-    auto parfum = make_shared<Parfum>(builder.setNume("Good Girl")
-                                                .setPret(400.0)
-                                                .setBrand("Carolina Herrera")
-                                                .setGramaj(80)
-                                                .setX("Floral-Fructat")
-                                                .buildParfum());
+    Parfum* parfum = builder.setNume("Good Girl")
+                            .setPret(400.0)
+                            .setBrand("Carolina Herrera")
+                            .setGramaj(80)
+                            .setX("Floral-Fructat")
+                            .buildParfum();
 
-    auto ruj = make_shared<Machiaj>(builder.setNume("Ruj satinat")
-                                                                .setPret(65.0)
-                                                                .setBrand("L'oreal")
-                                                                .setGramaj(10)
-                                                                .setX("Ruj")
-                                                                .setY("Rosu")
-                                                                .buildMachiaj());
+    Machiaj* ruj = builder.setNume("Ruj satinat")
+                            .setPret(65.0)
+                            .setBrand("L'oreal")
+                            .setGramaj(10)
+                            .setX("Ruj")
+                            .setY("Rosu")
+                            .buildMachiaj();
 
-    auto crema = make_shared<Crema>(builder.setNume("Crema hidratanta")
+    Crema* crema = builder.setNume("Crema hidratanta")
                             .setPret(125.0)
                             .setBrand("Lancome")
                             .setGramaj(200)
                             .setX("Piele uscata")
-                            .buildCrema());
+                            .buildCrema();
 
-    stoc.adaugaProdus(parfum);
-    stoc.adaugaProdus(ruj);
-    stoc.adaugaProdus(crema);
+    stoc.adaugaProdus(shared_ptr<Produs>(parfum));
+    stoc.adaugaProdus(shared_ptr<Produs>(ruj));
+    stoc.adaugaProdus(shared_ptr<Produs>(crema));
 
     stoc.afiseazaStoc();
 
-    auto client = new Client("Maria Popescu");
+    Client* client = new Client("Maria Popescu");
     client->adaugaInCos(parfum);
     client->adaugaInCos(ruj);
     client->adaugaInCos(crema);
@@ -343,13 +343,13 @@ int main() {
     cout << "Cosul dupa sortare:" << endl;
     client->afisare_cos();
 
-    auto comanda = new Comanda(client);
+    Comanda* comanda = new Comanda(client);
     comanda->adaugaProdus(parfum);
     comanda->adaugaProdus(ruj);
     comanda->adaugaProdus(crema);
     comanda->finalizeazaComanda();
 
-    auto admin = new Administrator("Ion Ionescu");
+    Administrator* admin = new Administrator("Ion Ionescu");
     admin->descriere();
     admin->Gestionare_Stoc();
 
@@ -357,9 +357,9 @@ int main() {
     delete comanda;
     delete admin;
 
-//    delete parfum;
-//    delete ruj;
-//    delete crema;
+    delete parfum;
+    delete ruj;
+    delete crema;
 
     return 0;
 }
