@@ -256,13 +256,13 @@ public:
 
 class Comanda {
 private:
-    Client* client;
-    vector<Produs*> produse;
+    shared_ptr<Client> client;
+    vector<shared_ptr<Produs>> produse;
 
 public:
     explicit Comanda(Client* c) : client(c) {}
 
-    void adaugaProdus(Produs* produs) {
+    void adaugaProdus(shared_ptr<Produs> produs) {
         produse.push_back(produs);
     }
 
@@ -271,9 +271,9 @@ public:
              << "Comanda clientului " << client->getNume() << " a fost procesata." << endl
              << "---------------------------------------------------" << endl;
         double total = 0;
-        for (const auto* it : produse) {
-            cout << *it << endl;
-            total += it->getPret();
+        for (const auto& produs : produse) {
+            cout << *produs << endl;
+            total += produs->getPret();
         }
 
         cout << "------------------------" << endl
@@ -338,19 +338,19 @@ int main() {
     cout << "Cosul dupa sortare:" << endl;
     client->afisare_cos();
 
-//    Comanda* comanda = new Comanda(client);
-//    comanda->adaugaProdus(parfum);
-//    comanda->adaugaProdus(ruj);
-//    comanda->adaugaProdus(crema);
-//    comanda->finalizeazaComanda();
-//
-//    Administrator* admin = new Administrator("Ion Ionescu");
-//    admin->descriere();
-//    admin->Gestionare_Stoc();
+    Comanda* comanda = new Comanda(client);
+    comanda->adaugaProdus(parfum);
+    comanda->adaugaProdus(ruj);
+    comanda->adaugaProdus(crema);
+    comanda->finalizeazaComanda();
+
+    Administrator* admin = new Administrator("Ion Ionescu");
+    admin->descriere();
+    admin->Gestionare_Stoc();
 
     delete client;
-//    delete comanda;
-//    delete admin;
+    delete comanda;
+    delete admin;
 //
 //    delete parfum;
 //    delete ruj;
