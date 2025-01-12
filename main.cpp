@@ -209,7 +209,7 @@ protected:
     string nume;
 public:
     explicit Utilizator(const string& n) : nume(n) { }
-//    virtual void descriere() const = 0;
+    virtual void descriere() const = 0;
     const string& getNume() const { return nume; }
     virtual ~Utilizator() {}
 };
@@ -233,9 +233,9 @@ public:
         cosCumparaturi.adaugaProdus(produs);
     }
 
-//    void descriere() const override {
-//        cout << "Clientul: " << nume << endl;
-//    }
+    void descriere() const override {
+        cout << "Clientul: " << nume << endl;
+    }
 
     void sortare_cos() {
         cosCumparaturi.sortare_dupa_pret();
@@ -245,9 +245,9 @@ public:
 class Administrator : public Utilizator {
 public:
     explicit Administrator(const string& n) : Utilizator(n) { }
-//    void descriere() const override {
-//        cout << "Administratorul: " << nume << endl;
-//    }
+    void descriere() const override {
+        cout << "Administratorul: " << nume << endl;
+    }
 
     void Gestionare_Stoc() const {
         cout << nume << " gestioneaza stocul magazinului." << endl;
@@ -266,20 +266,20 @@ public:
         produse.push_back(produs);
     }
 
-//    void finalizeazaComanda() {
-//        cout << "---------------------------------------------------" << endl
-//             << "Comanda clientului " << client->getNume() << " a fost procesata." << endl
-//             << "---------------------------------------------------" << endl;
-//        double total = 0;
-//        for (const auto* it : produse) {
-//            cout << *it << endl;
-//            total += it->getPret();
-//        }
-//
-//        cout << "------------------------" << endl
-//             << "Total de plata: " << total << " lei." << endl
-//             << "------------------------" << endl;
-//    }
+    void finalizeazaComanda() {
+        cout << "---------------------------------------------------" << endl
+             << "Comanda clientului " << client->getNume() << " a fost procesata." << endl
+             << "---------------------------------------------------" << endl;
+        double total = 0;
+        for (const auto* it : produse) {
+            cout << *it << endl;
+            total += it->getPret();
+        }
+
+        cout << "------------------------" << endl
+             << "Total de plata: " << total << " lei." << endl
+             << "------------------------" << endl;
+    }
 };
 
 int main() {
