@@ -32,11 +32,7 @@ public:
         });
     }
 
-    ~CosDeCumparaturi() {
-//        for (auto produs : produse) {
-//            delete produs;
-//        }
-    }
+    ~CosDeCumparaturi() { }
 };
 
 template <typename T>
@@ -314,9 +310,6 @@ int main() {
                                            .setX("Piele uscata")
                                            .buildCrema());
 
-//    stoc.adaugaProdus(shared_ptr<Produs>(parfum));
-//    stoc.adaugaProdus(shared_ptr<Produs>(ruj));
-//    stoc.adaugaProdus(shared_ptr<Produs>(crema));
 
     stoc.adaugaProdus(parfum);
     stoc.adaugaProdus(ruj);
@@ -329,11 +322,11 @@ int main() {
     client->adaugaInCos(ruj);
     client->adaugaInCos(crema);
 
-    // Afișarea coșului înainte de sortare
+    // Afisarea coșului inainte de sortare
     cout << "Cosul inainte de sortare:" << endl;
     client->afisare_cos();
 
-    // Sortarea coșului și afișarea după sortare
+    // Sortarea cosului si afisarea dupa sortare
     client->sortare_cos();
     cout << "Cosul dupa sortare:" << endl;
     client->afisare_cos();
@@ -348,13 +341,7 @@ int main() {
     admin->descriere();
     admin->Gestionare_Stoc();
 
-//    delete client;
-//    delete comanda;
     delete admin;
-//
-//    delete parfum;
-//    delete ruj;
-//    delete crema;
 
     return 0;
 }
