@@ -8,34 +8,34 @@ using namespace std;
 template <typename T>
 class CosDeCumparaturi {
 private:
-    vector<T*> produse;
+    vector<shared_ptr<T>> produse;
     static int nrProd;
 
 public:
     static int aflare_NrProd() { return nrProd; }
 
-    void adaugaProdus(T* produs) {
+    void adaugaProdus(shared_ptr<T> produs) {
         produse.push_back(produs);
         nrProd++;
     }
 
     void afiseazaCos() const {
         cout << "Produse din cos:" << endl;
-        for (auto const produs : produse) {
+        for (const auto& produs : produse) {
             cout << *produs << endl;
         }
     }
 
     void sortare_dupa_pret() {
-        sort(produse.begin(), produse.end(), [](T* p1, T* p2) {
+        sort(produse.begin(), produse.end(), [](shared_ptr<T> p1, shared_ptr<T> p2) {
             return p1->getPret() < p2->getPret();
         });
     }
 
     ~CosDeCumparaturi() {
-        for (auto produs : produse) {
-            delete produs;
-        }
+//        for (auto produs : produse) {
+//            delete produs;
+//        }
     }
 };
 
@@ -229,7 +229,7 @@ public:
     }
 
 
-    void adaugaInCos(Produs* produs) {
+    void adaugaInCos(shared_ptr<Produs> produs) {
         cosCumparaturi.adaugaProdus(produs);
     }
 
@@ -253,12 +253,6 @@ public:
         cout << nume << " gestioneaza stocul magazinului." << endl;
     }
 };
-//class EroareComanda : public std::exception {
-//public:
-//    const char* what() const noexcept override {
-//            return "Produsul nu poate fi adaugat in comanda!";
-//    }
-//};
 
 class Comanda {
 private:
@@ -269,9 +263,6 @@ public:
     explicit Comanda(Client* c) : client(c) {}
 
     void adaugaProdus(Produs* produs) {
-//        if (produs == nullptr) {
-//            throw EroareComanda();
-//        }
         produse.push_back(produs);
     }
 
@@ -301,31 +292,35 @@ int main() {
     cout << "Produsul introdus este:" << endl;
     cout << produs1 << endl;
 
-    Parfum* parfum = builder.setNume("Good Girl")
+    auto parfum =shared_ptr<Parfum>(builder.setNume("Good Girl")
                             .setPret(400.0)
                             .setBrand("Carolina Herrera")
                             .setGramaj(80)
                             .setX("Floral-Fructat")
-                            .buildParfum();
+                            .buildParfum());
 
-    Machiaj* ruj = builder.setNume("Ruj satinat")
+    auto ruj = shared_ptr<Machiaj>(builder.setNume("Ruj satinat")
                             .setPret(65.0)
                             .setBrand("L'oreal")
                             .setGramaj(10)
                             .setX("Ruj")
                             .setY("Rosu")
-                            .buildMachiaj();
+                            .buildMachiaj());
 
-    Crema* crema = builder.setNume("Crema hidratanta")
+    auto crema = shared_ptr<Crema>(builder.setNume("Crema hidratanta")
                             .setPret(125.0)
                             .setBrand("Lancome")
                             .setGramaj(200)
                             .setX("Piele uscata")
-                            .buildCrema();
+                            .buildCrema());
 
-    stoc.adaugaProdus(shared_ptr<Produs>(parfum));
-    stoc.adaugaProdus(shared_ptr<Produs>(ruj));
-    stoc.adaugaProdus(shared_ptr<Produs>(crema));
+//    stoc.adaugaProdus(shared_ptr<Produs>(parfum));
+//    stoc.adaugaProdus(shared_ptr<Produs>(ruj));
+//    stoc.adaugaProdus(shared_ptr<Produs>(crema));
+
+    stoc.adaugaProdus(parfum);
+    stoc.adaugaProdus(ruj);
+    stoc.adaugaProdus(crema);
 
     stoc.afiseazaStoc();
 
@@ -335,7 +330,7 @@ int main() {
     client->adaugaInCos(crema);
 
     // Afișarea coșului înainte de sortare
-    cout << "Cosul utilizatorului " << client->getNume() << " contine (inainte de sortare): " << endl;
+    cout << "Cosul inainte de sortare:" << endl;
     client->afisare_cos();
 
     // Sortarea coșului și afișarea după sortare
@@ -343,23 +338,23 @@ int main() {
     cout << "Cosul dupa sortare:" << endl;
     client->afisare_cos();
 
-    Comanda* comanda = new Comanda(client);
-    comanda->adaugaProdus(parfum);
-    comanda->adaugaProdus(ruj);
-    comanda->adaugaProdus(crema);
-    comanda->finalizeazaComanda();
-
-    Administrator* admin = new Administrator("Ion Ionescu");
-    admin->descriere();
-    admin->Gestionare_Stoc();
+//    Comanda* comanda = new Comanda(client);
+//    comanda->adaugaProdus(parfum);
+//    comanda->adaugaProdus(ruj);
+//    comanda->adaugaProdus(crema);
+//    comanda->finalizeazaComanda();
+//
+//    Administrator* admin = new Administrator("Ion Ionescu");
+//    admin->descriere();
+//    admin->Gestionare_Stoc();
 
     delete client;
-    delete comanda;
-    delete admin;
-
-    delete parfum;
-    delete ruj;
-    delete crema;
+//    delete comanda;
+//    delete admin;
+//
+//    delete parfum;
+//    delete ruj;
+//    delete crema;
 
     return 0;
 }
