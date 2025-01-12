@@ -260,7 +260,7 @@ private:
     vector<shared_ptr<Produs>> produse;
 
 public:
-    explicit Comanda(Client* c) : client(c) {}
+    explicit Comanda(shared_ptr<Client> c) : client(c) {}
 
     void adaugaProdus(shared_ptr<Produs> produs) {
         produse.push_back(produs);
@@ -293,26 +293,26 @@ int main() {
     cout << produs1 << endl;
 
     auto parfum =shared_ptr<Parfum>(builder.setNume("Good Girl")
-                            .setPret(400.0)
-                            .setBrand("Carolina Herrera")
-                            .setGramaj(80)
-                            .setX("Floral-Fructat")
-                            .buildParfum());
+                                            .setPret(400.0)
+                                            .setBrand("Carolina Herrera")
+                                            .setGramaj(80)
+                                            .setX("Floral-Fructat")
+                                            .buildParfum());
 
     auto ruj = shared_ptr<Machiaj>(builder.setNume("Ruj satinat")
-                            .setPret(65.0)
-                            .setBrand("L'oreal")
-                            .setGramaj(10)
-                            .setX("Ruj")
-                            .setY("Rosu")
-                            .buildMachiaj());
+                                           .setPret(65.0)
+                                           .setBrand("L'oreal")
+                                           .setGramaj(10)
+                                           .setX("Ruj")
+                                           .setY("Rosu")
+                                           .buildMachiaj());
 
     auto crema = shared_ptr<Crema>(builder.setNume("Crema hidratanta")
-                            .setPret(125.0)
-                            .setBrand("Lancome")
-                            .setGramaj(200)
-                            .setX("Piele uscata")
-                            .buildCrema());
+                                           .setPret(125.0)
+                                           .setBrand("Lancome")
+                                           .setGramaj(200)
+                                           .setX("Piele uscata")
+                                           .buildCrema());
 
 //    stoc.adaugaProdus(shared_ptr<Produs>(parfum));
 //    stoc.adaugaProdus(shared_ptr<Produs>(ruj));
@@ -324,7 +324,7 @@ int main() {
 
     stoc.afiseazaStoc();
 
-    Client* client = new Client("Maria Popescu");
+    auto client = make_shared<Client>("Maria Popescu");
     client->adaugaInCos(parfum);
     client->adaugaInCos(ruj);
     client->adaugaInCos(crema);
@@ -338,7 +338,7 @@ int main() {
     cout << "Cosul dupa sortare:" << endl;
     client->afisare_cos();
 
-    Comanda* comanda = new Comanda(client);
+    auto comanda = make_shared<Comanda>(client);
     comanda->adaugaProdus(parfum);
     comanda->adaugaProdus(ruj);
     comanda->adaugaProdus(crema);
@@ -348,8 +348,8 @@ int main() {
     admin->descriere();
     admin->Gestionare_Stoc();
 
-    delete client;
-    delete comanda;
+//    delete client;
+//    delete comanda;
     delete admin;
 //
 //    delete parfum;
