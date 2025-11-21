@@ -1,23 +1,3 @@
-# Nu primesc notă pentru că nu am pus titlu și descriere
-
-## Instrucțiuni de compilare
-
-Proiectul este configurat cu CMake.
-
-Instrucțiuni pentru terminal:
-
-1. Pasul de configurare
-```sh
-cmake -S . -B build -DCMAKE_BUILD_TYPE=Debug
-```
-
-Sau pe Windows cu GCC:
-```sh
-cmake -S . -B build -DCMAKE_BUILD_TYPE=Debug -G Ninja
-```
-
-La acest pas putem cere să generăm fișiere de proiect pentru diverse medii de lucru.
-
 ## Cerințe obligatorii
 
 Nerespectarea duce la nepunctarea proiectului
