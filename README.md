@@ -1,3 +1,20 @@
+# Proiect POO (C++)
+
+> Proiect realizat în anul II, semestrul I, disciplina Programare Orientată pe Obiecte, pornit de la template-ul de laborator [`Ionnier/oop-template`](https://github.com/Ionnier/oop-template).
+
+## Descriere
+
+Proiect în C++ cu meniu interactiv, care implementează 2-3 ierarhii de clase, constructori/destructori supraîncărcați, excepții, o clasă template, containere STL și două design patterns.
+
+## Tehnologii
+
+C++ · CMake · GitHub Actions
+
+---
+
+*Cerințele complete ale temei (din enunțul cursului) sunt mai jos.*
+
+---
 ## Cerințe obligatorii
 
 Nerespectarea duce la nepunctarea proiectului
